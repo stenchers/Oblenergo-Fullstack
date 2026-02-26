@@ -1,0 +1,22 @@
+CREATE DATABASE IF NOT EXISTS oblenergo_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE oblenergo_db;
+
+CREATE TABLE IF NOT EXISTS subscribers (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(255) NOT NULL,
+    address VARCHAR(500) NOT NULL,
+    phone VARCHAR(20),
+    contract_number VARCHAR(50) UNIQUE NOT NULL,
+    status ENUM('ACTIVE', 'INACTIVE', 'DISCONNECTED', 'UNDER_REPAIR') NOT NULL DEFAULT 'ACTIVE',
+    registration_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS app_users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('ADMIN', 'USER') NOT NULL DEFAULT 'USER'
+);
+
+INSERT IGNORE INTO app_users (username, password, role) 
+VALUES ('admin', '$2a$10$8KzQ9vL5pX7mN2bV3cD4eF5gH6iJ7kL8mN9oP0qR1sT2uV3wX4yZ5', 'ADMIN');
